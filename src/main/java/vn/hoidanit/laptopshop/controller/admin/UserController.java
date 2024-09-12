@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.controller;
+package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
@@ -12,11 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @Controller
 public class UserController {
@@ -40,7 +36,7 @@ public class UserController {
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
         model.addAttribute("users1", users);
-        return "admin/user/table-user";
+        return "admin/user/show";
     }
 
     @RequestMapping("/admin/user/{id}")
@@ -48,7 +44,7 @@ public class UserController {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
         model.addAttribute("id", id);
-        return "admin/user/show";
+        return "admin/user/detail";
     }
 
     @RequestMapping("/admin/user/create")
@@ -69,11 +65,11 @@ public class UserController {
         model.addAttribute("newUser", currentUser);
         return "admin/user/update";
     }
-    
+
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model,  @ModelAttribute("newUser") User hoidanit) {
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit) {
         User currentUser = this.userService.getUserById(hoidanit.getId());
-        if(currentUser != null){
+        if (currentUser != null) {
             currentUser.setAddress(hoidanit.getAddress());
             currentUser.setFullName(hoidanit.getFullName());
             currentUser.setPhone(hoidanit.getPhone());
@@ -91,7 +87,7 @@ public class UserController {
         model.addAttribute("newUser", new User());
         return "admin/user/delete";
     }
-    
+
     @PostMapping("/admin/user/delete")
     public String postDeleteUser(Model model, @ModelAttribute("newUser") User eric) {
         this.userService.deleteAUser(eric.getId());
