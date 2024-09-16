@@ -25,7 +25,7 @@ public class UserController {
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UploadService uploadService, UserService userService, ServletContext servletContext, PasswordEncoder passwordEncoder) {
+    public UserController(UploadService uploadService, UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder= passwordEncoder;
