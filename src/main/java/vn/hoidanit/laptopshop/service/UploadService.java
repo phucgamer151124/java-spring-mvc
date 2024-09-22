@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.repository;
+package vn.hoidanit.laptopshop.service;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -9,17 +9,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.ServletContext;
-import vn.hoidanit.laptopshop.service.UserService;
 
 @Service
 public class UploadService {
     private final ServletContext servletContext;
 
-    public UploadService(ServletContext servletContext) {
+    public UploadService(
+            ServletContext servletContext) {
+
         this.servletContext = servletContext;
     }
 
-    public String handleSaveUserloadFile(MultipartFile file, String targetFolder) {
+    public String handleSaveUploadFile(MultipartFile file, String targetFolder) {
+        // don't upload file
+        if (file.isEmpty())
+            return "";
+        // relative path: absolute path
         String rootPath = this.servletContext.getRealPath("/resources/images");
         String finalName = "";
         try {
@@ -33,6 +38,7 @@ public class UploadService {
             finalName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
 
             File serverFile = new File(dir.getAbsolutePath() + File.separator + finalName);
+            // uuid
 
             BufferedOutputStream stream = new BufferedOutputStream(
                     new FileOutputStream(serverFile));
@@ -44,4 +50,5 @@ public class UploadService {
         }
         return finalName;
     }
+
 }
